@@ -1,0 +1,4 @@
+rootProject.name = 'browser_rts'
+include 'web'
+include 'websocket'
+
