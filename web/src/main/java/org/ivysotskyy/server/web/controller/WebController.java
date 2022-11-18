@@ -17,4 +17,10 @@ public class WebController {
 
         return "index.html";
     }
+
+    @GetMapping("/greeting")
+    public String greeting() {
+        logger.info("greeting");
+        return "greeting.html";
+    }
 }

@@ -1,0 +1,9 @@
+logging:
+  level:
+    org:
+      apache: trace
+      springframework:
+        web: trace
+
+server:
+  max-http-header-size: 1048576

@@ -1,7 +1,6 @@
 package org.ivysotskyy.server.websocket.server.controller;
 
 import org.ivysotskyy.server.websocket.model.message.GreetingMessage;
-import org.ivysotskyy.server.websocket.model.message.Message;
 import org.ivysotskyy.server.websocket.model.message.UserMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -16,11 +15,18 @@ public class GreetingController {
     Logger logger = Logger.getLogger("GreetingController");
 
     @MessageMapping("/hello")
-    @SendTo("")
-    public GreetingMessage greeting(UserMessage user) throws InterruptedException {
+    @SendTo("/user")
+    public String greeting(String user) throws InterruptedException {
         Thread.sleep(1000);
-        logger.info("User: " + user.getContent() + " connected");
-        return new GreetingMessage("Hello, " + HtmlUtils.htmlEscape(user.getContent()) + "!");
+        logger.info("connected");
+        logger.info("User: " + HtmlUtils.htmlEscape(user)  + " connected");
+        return "Hello, " + HtmlUtils.htmlEscape(user) + "!";
     }
+
+//    public GreetingMessage greeting(UserMessage user) throws InterruptedException {
+//        Thread.sleep(1000);
+//        //logger.info("User: " + user.getContent() + " connected");
+//        return new GreetingMessage("Hello, " + HtmlUtils.htmlEscape(user.getContent()) + "!");
+//    }
 
 }
