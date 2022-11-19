@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.socket.WebSocketHandler;
 
 import java.util.logging.Logger;
 
@@ -16,11 +17,11 @@ public class GreetingController {
 
     @MessageMapping("/hello")
     @SendTo("/user")
-    public String greeting(String user) throws InterruptedException {
+    public GreetingMessage greeting(UserMessage message) throws InterruptedException {
         Thread.sleep(1000);
         logger.info("connected");
-        logger.info("User: " + HtmlUtils.htmlEscape(user)  + " connected");
-        return "Hello, " + HtmlUtils.htmlEscape(user) + "!";
+        logger.info("User: " + HtmlUtils.htmlEscape(message.getContent())  + " connected");
+        return new GreetingMessage("Hello, " + HtmlUtils.htmlEscape(message.getContent()) + "!");
     }
 
 //    public GreetingMessage greeting(UserMessage user) throws InterruptedException {

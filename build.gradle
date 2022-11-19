@@ -12,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.2'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat:2.7.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
