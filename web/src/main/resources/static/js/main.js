@@ -1,44 +1,28 @@
-const connectButton = document.getElementById("connect");
-let socket;
-console.log("main.js loaded")
-//button on click callback function
-function onClick(event) {
-    console.log("click")
-    socket = new WebSocket("ws://localhost:8080/hello", "v10.stomp");
-    console.log(socket);
+import * as StompJs from "../../../../../node_modules/@stomp/stompjs/esm6/index.js"
 
-    socket.onopen = function(e) {
-        console.log("[open] Connection established");
-        console.log("Sending to server");
-        socket.send("{'name': 'Jeff'}");
-    };
+const client = new StompJs.Client({
+    brokerURL: 'ws://localhost:8080/hello',
 
-    socket.onmessage = function(event) {
-        console.log(`[message] Data received from server: ${event.data}`);
-    };
+    debug: function (str) {
+        console.log(str);
+    },
+    reconnectDelay: 5000,
+    heartbeatIncoming: 4000,
+    heartbeatOutgoing: 4000,
+});
 
-    socket.onclose = function(event) {
-        if (event.wasClean) {
-            console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-        } else {
-            // e.g. server process killed or network down
-            // event.code is usually 1006 in this case
-            console.log('[close] Connection died');
-        }
-    };
+client.onConnect = function (frame) {
+    // Do something, all subscribes must be done is this callback
+    // This is needed because this will be executed after a (re)connect
+};
 
-    socket.onerror = function(error) {
-        console.log(error);
-        console.log(`[error]`);
-        disconnect();
-    };
-}
-function disconnect() {
-    if (socket != null) {
-        socket.close();
-    }
-    console.log("Websocket is in disconnected state");
-}
+client.onStompError = function (frame) {
+    // Will be invoked in case of error encountered at Broker
+    // Bad login/passcode typically will cause an error
+    // Complaint brokers will set `message` header with a brief message. Body may contain details.
+    // Compliant brokers will terminate the connection after any error
+    console.log('Broker reported error: ' + frame.headers['message']);
+    console.log('Additional details: ' + frame.body);
+};
 
-
-connectButton.addEventListener("click", onClick);
+client.activate();
