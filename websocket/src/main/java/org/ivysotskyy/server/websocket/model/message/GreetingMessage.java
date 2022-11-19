@@ -15,6 +15,7 @@ public class GreetingMessage implements Message {
     public GreetingMessage(String message) {
         this.message = message;
     }
+    public GreetingMessage() {}
 
     @Override
     public String getContent() {

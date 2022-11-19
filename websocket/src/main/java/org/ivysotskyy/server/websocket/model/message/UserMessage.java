@@ -9,6 +9,7 @@ public class UserMessage implements Message {
         return username;
     }
 
+    public UserMessage(){}
     private String username;
 
     public UserMessage(String username) {

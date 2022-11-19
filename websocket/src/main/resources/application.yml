@@ -1,9 +1,13 @@
 logging:
   level:
     org:
-      apache: trace
+      apache: false
       springframework:
-        web: trace
+        web: false
 
 server:
-  max-http-header-size: 1048576
+  max-http-header-size: 12288
+
+spring:
+  main:
+    lazy-initialization: true

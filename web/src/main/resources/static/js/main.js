@@ -33,8 +33,9 @@ function connect() {
     });
 
     client.onConnect = function (frame) {
-        console.log("Connected")
-        console.log(frame)
+        console.log("Connected: ")
+        console.log(frame.body)
+        client.subscribe("/topic/greetings", messageCallback);
         // Do something, all subscribes must be done is this callback
         // This is needed because this will be executed after a (re)connect
     };
@@ -48,9 +49,11 @@ function connect() {
         console.log('Additional details: ' + frame.body);
     };
 
-    client.activate();
-    client.subscribe("/topic/hello", (val) => console.log("Message:\n ", val))
+    function messageCallback(message) {
+        console.log("Message:\n ", message.body)
+    }
 
+    client.activate();
 }
 
 connect()
